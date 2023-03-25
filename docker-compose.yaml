@@ -14,7 +14,7 @@ services:
     hostname: residence
     restart: always
     ports:
-      - '10093:80'
+      - '1313:80'
     volumes:
       - ./:/var/www/html
     extra_hosts:
