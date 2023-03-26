@@ -1,16 +1,7 @@
 <?php
 
-$user = [
-   'email' => 'juan@gmail.com',
-   //key => value
-   'password' => '34353435',
-];
-
-$user = ['juan', 'antonio', 'lists'];
-
-
 class PostgreSQL {
-   $client;
+   private $client;
 
    function __construct() {
       $this->connect();
@@ -26,8 +17,9 @@ class PostgreSQL {
    }
 
    // $stament: 'SELECT * FROM users;'
-   function consultar(string $stament) {
-      $this->client->query($stament)->fetchAll();
+   function consultar(string $stament): ?array {
+        return pg_query($this->client, $stament);
+    //   return $this->client->query($stament)->fetchAll();
    }
 
    // $stament: 'SELECT * FROM users;'
@@ -43,3 +35,27 @@ class PostgreSQL {
       pg_query($this->client, $query);
    }
 }
+
+// use MyApp\Datasource\PostgreSQL;
+
+$sql = new PostgreSQL();
+
+$sql->connect();
+
+$users = $sql->consultar('SELECT * FROM users');
+
+// tratar
+// $arr = ['a', 'b', 'c'];
+
+
+// while ($row = pg_fetch_row($users)) {
+//   echo "Author: $row[0]  E-mail: $row[1]";
+//   echo "<br />\n";
+// }
+var_dump($users);
+
+
+echo 'Nuestros datos: ';
+echo $_POST['password'];
+
+var_dump($_POST);
