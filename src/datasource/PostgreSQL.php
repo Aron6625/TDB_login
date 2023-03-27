@@ -29,11 +29,17 @@ class PostgreSQL {
       return $output;
    }
 
-   // $stament: 'SELECT * FROM users;'
    function saveSession(array $datas) {
-      $statement = 'INSERT INTO "sessions"(process_id, ip_address, user_id)'.
-         '('. implode(',', $datas).')';
+      $nextSeq = $this->consultar("SELECT nextval('sessions_id_seq');");
+
+      $sessionId = $nextSeq[0]['nextval'];; 
+
+      $datas[] = $sessionId;
+      $data = implode(',', $datas);
+      $statement = "INSERT INTO sessions(process_id, ip_address, user_id, id) VALUES($data)";
 
       pg_query($this->client, $statement);
+
+      return $sessionId; 
    }
 }

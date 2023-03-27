@@ -1,6 +1,11 @@
 <?php
 
+session_start();
+
 require_once 'datasource/PostgreSQL.php';
+
+if(isset($_SESSION['session_id']))
+  header('Location: /', true);
 
 if(isset($_POST['user']) && !empty($_POST['user'])) {
   $user = $_POST['user'];
@@ -17,8 +22,21 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
   if(!empty($user)) {
     $processId = $sql->consultar('SELECT pg_backend_pid();');
 
-    var_dump($user);
-    var_dump($processId);
+    $processId = $processId[0]['pg_backend_pid'];
+    $userId = $user[0]['id'];
+    $ipAddr = $_SERVER['REMOTE_ADDR']; 
+
+    $userSession = [
+      $processId,
+      "'$ipAddr'",
+      $userId,
+    ];
+
+    $sessionId = $sql->saveSession($userSession);
+
+    $_SESSION['session_id'] = $sessionId;
+
+    header('Location: /', true);
   }
 }
 
