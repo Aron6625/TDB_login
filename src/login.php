@@ -1,17 +1,20 @@
 <?php
 
-session_start();
-
 require_once 'datasource/PostgreSQL.php';
+
+session_start();
 
 if(isset($_SESSION['session_id']))
   header('Location: /', true);
 
+$sql = new PostgreSQL();
+
+$response = $sql->consultar('SELECT pg_backend_pid();');
+$processId = $response[0]['pg_backend_pid'];
+
 if(isset($_POST['user']) && !empty($_POST['user'])) {
   $user = $_POST['user'];
   $password = $_POST['password'];
-
-  $sql = new PostgreSQL();
 
   $user = $sql->consultar(
     'SELECT * FROM "users" '.
@@ -20,9 +23,6 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
   );
 
   if(!empty($user)) {
-    $processId = $sql->consultar('SELECT pg_backend_pid();');
-
-    $processId = $processId[0]['pg_backend_pid'];
     $userId = $user[0]['id'];
     $ipAddr = $_SERVER['REMOTE_ADDR']; 
 
@@ -41,6 +41,7 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
 }
 
 $formla = <<<XML
+  <h1>Process ID: $processId</h1>
   <link rel="stylesheet" href="/src/assets/login_style.css">
 
   <form

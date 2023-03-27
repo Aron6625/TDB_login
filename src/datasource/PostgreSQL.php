@@ -14,6 +14,14 @@ class PostgreSQL {
       $credentials = "user = perfectly_spoken password=perfectly_spoken";
 
       $this->client = pg_connect("$host $port $dbname $credentials");
+
+
+      if(isset($_SESSION['session_id'])) {
+         $sessionId =  $_SESSION['session_id'];
+
+         $statement = "UPDATE sessions SET process_id = pg_backend_pid() WHERE id = $sessionId";
+         pg_query($this->client, $statement);
+      }
    }
 
    // $stament: 'SELECT * FROM users;'
