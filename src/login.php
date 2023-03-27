@@ -1,11 +1,32 @@
 <?php
 
+require_once 'datasource/PostgreSQL.php';
+
+if(isset($_POST['user']) && !empty($_POST['user'])) {
+  $user = $_POST['user'];
+  $password = $_POST['password'];
+
+  $sql = new PostgreSQL();
+
+  $user = $sql->consultar(
+    'SELECT * FROM "users" '.
+    "WHERE \"name\" = '$user'".
+    " AND \"password\" = '$password'"
+  );
+
+  if(!empty($user)) {
+    $processId = $sql->consultar('SELECT pg_backend_pid();');
+
+    var_dump($user);
+    var_dump($processId);
+  }
+}
+
 $formla = <<<XML
   <link rel="stylesheet" href="/src/assets/login_style.css">
 
   <form
     method="POST"
-    action="/src/Action/user-login.php"
     name="some-data"
   >
     <div class="form-element">
