@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   postgresql:
-    image: postgres:9.6-alpine
+    image: postgres
     environment:
       POSTGRES_USER: "perfectly_spoken"
       POSTGRES_PASSWORD: "perfectly_spoken"

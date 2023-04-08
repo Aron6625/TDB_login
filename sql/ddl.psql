@@ -15,11 +15,13 @@ CREATE TABLE "sessions"(
   FOREIGN KEY ("user_id") REFERENCES "users"("id")
 );
 
-INSERT INTO "users" VALUES(1, 'name', 'jhomanidev@gmail.com', '34353435');
-INSERT INTO "users" VALUES(2, 'juan', 'test@gmail.com', '1234');
-
+INSERT INTO "users" VALUES(1, 'aron', 'ssksksk@gmail.com', '1234');
+INSERT INTO "users" VALUES(2, 'Joel', 'test@gmail.com', '12345678');
+INSERT INTO "users" VALUES(3, 'Ana', 'Ana@gmail.com', '165454765');
+INSERT INTO "users" VALUES(4, 'Jonas', 'te7878@gmail.com', '7779898');
+INSERT INTO "users" VALUES(5, 'luz', 'Lonas123@gmail.com', '7879545');
 
 select pg_backend_pid();
+SELECT * FROM "users";
+SELECT * FROM "sessions";
 
-
-SELECT * FROM sessions;

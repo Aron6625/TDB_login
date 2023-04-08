@@ -1,0 +1,28 @@
+DROP FUNCTION IF EXISTS  user_login;
+
+CREATE OR REPLACE FUNCTION user_login(
+  i_nombre  TEXT,
+  i_password TEXT
+) 
+  RETURNS TABLE(o_id_iu integer) 
+AS $$
+BEGIN
+
+  return query
+    SELECT fi.id_iu
+    FROM (SELECT rf.id_funcion
+      FROM (SELECT ur.id_rol
+        FROM (SELECT  id_user
+          FROM "user" u
+          WHERE
+            u.nom_user=i_nombre AND
+            u."passsword"= i_password
+        ) uno, user_rol ur
+      WHERE ur.id_user = uno.id_user) dos, rol_funcion rf
+      WHERE rf.id_rol=dos.id_rol) tres, funcion_iu fi
+    WHERE fi.id_funcion=tres.id_funcion;
+
+END;
+$$ language plpgsql;
+
+SELECT * FROM user_login('Joel', 'Test1235');

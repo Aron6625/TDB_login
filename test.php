@@ -1,3 +1,3 @@
-<?php
-
-var_dump($_SERVER);
+<input type="text" />
+<input type="text" />
+<input type="button" value="Creater" />

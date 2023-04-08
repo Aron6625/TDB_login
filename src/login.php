@@ -17,7 +17,7 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
   $password = $_POST['password'];
 
   $user = $sql->consultar(
-    'SELECT * FROM "users" '.
+    'SELECT * FROM "user" '.
     "WHERE \"name\" = '$user'".
     " AND \"password\" = '$password'"
   );
