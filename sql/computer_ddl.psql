@@ -1,0 +1,231 @@
+/*==============================================================*/
+/* DBMS name:      PostgreSQL 8                                 */
+/* Created on:     04/04/2023 18:28:03                          */
+/*==============================================================*/
+
+
+drop index if exists COMPUTADORA_PK;
+
+drop table if exists COMPUTADORA;
+
+drop index if exists INFORMA_FK;
+
+drop index if exists GENERA_FK;
+
+drop index if exists DEVOLUCION_PK;
+
+drop table if exists DEVOLUCION;
+
+drop index if exists ESTADO_PK;
+
+drop table if exists ESTADO;
+
+drop index if exists ESTUDIANTE_PK;
+
+drop table if exists ESTUDIANTE;
+
+drop index if exists OBTIENE_FK;
+
+drop index if exists PRESTA_FK;
+
+drop index if exists ASIGNA_FK;
+
+drop index if exists PRESTAMO_PK;
+
+drop table if exists PRESTAMO;
+
+drop index if exists PROFESOR_PK;
+
+drop table if exists PROFESOR;
+
+/*==============================================================*/
+/* Table: COMPUTADORA                                           */
+/*==============================================================*/
+create table COMPUTADORA (
+   ID_COMP              INT4                 not null,
+   NOMBRECOMP           VARCHAR(50)          not null,
+   PROCESADOR           VARCHAR(30)          not null,
+   MEMORIA              VARCHAR(30)          not null,
+   DISCO                VARCHAR(30)          not null,
+   SO                   VARCHAR(30)          not null,
+   CONECTIVIDAD         VARCHAR(30)          not null,
+   MODELO               VARCHAR(30)          not null,
+   constraint PK_COMPUTADORA primary key (ID_COMP)
+);
+
+/*==============================================================*/
+/* Index: COMPUTADORA_PK                                        */
+/*==============================================================*/
+create unique index COMPUTADORA_PK on COMPUTADORA (
+ID_COMP
+);
+
+/*==============================================================*/
+/* Table: DEVOLUCION                                            */
+/*==============================================================*/
+create table DEVOLUCION (
+   ID_PROF              INT4                 not null,
+   ID_COMP              INT4                 not null,
+   ID_EST               INT4                 not null,
+   ID_PREST             INT4                 not null,
+   ID_DEV               SERIAL               not null,
+   ID                   INT4                 not null,
+   FECHADEV             DATE                 not null,
+   DESCRIPCION          VARCHAR(300)         null,
+   constraint PK_DEVOLUCION primary key (ID_PROF, ID_COMP, ID_EST, ID_PREST, ID_DEV)
+);
+
+/*==============================================================*/
+/* Index: DEVOLUCION_PK                                         */
+/*==============================================================*/
+create unique index DEVOLUCION_PK on DEVOLUCION (
+ID_PROF,
+ID_COMP,
+ID_EST,
+ID_PREST,
+ID_DEV
+);
+
+/*==============================================================*/
+/* Index: GENERA_FK                                             */
+/*==============================================================*/
+create  index GENERA_FK on DEVOLUCION (
+ID_PROF,
+ID_COMP,
+ID_EST,
+ID_PREST
+);
+
+/*==============================================================*/
+/* Index: INFORMA_FK                                            */
+/*==============================================================*/
+create  index INFORMA_FK on DEVOLUCION (
+ID
+);
+
+/*==============================================================*/
+/* Table: ESTADO                                                */
+/*==============================================================*/
+create table ESTADO (
+   ID                   SERIAL               not null,
+   ESTADO               VARCHAR(50)          not null,
+   FECHADANO            DATE                 not null,
+   constraint PK_ESTADO primary key (ID)
+);
+
+/*==============================================================*/
+/* Index: ESTADO_PK                                             */
+/*==============================================================*/
+create unique index ESTADO_PK on ESTADO (
+ID
+);
+
+/*==============================================================*/
+/* Table: ESTUDIANTE                                            */
+/*==============================================================*/
+create table ESTUDIANTE (
+   ID_EST               INT4                 not null,
+   NOMBREEST            VARCHAR(50)          not null,
+   APELLIDOEST          VARCHAR(50)          not null,
+   EDAD                 INT2                 not null,
+   GRADO                VARCHAR(20)          not null,
+   constraint PK_ESTUDIANTE primary key (ID_EST)
+);
+
+/*==============================================================*/
+/* Index: ESTUDIANTE_PK                                         */
+/*==============================================================*/
+create unique index ESTUDIANTE_PK on ESTUDIANTE (
+ID_EST
+);
+
+/*==============================================================*/
+/* Table: PRESTAMO                                              */
+/*==============================================================*/
+create table PRESTAMO (
+   ID_PROF              INT4                 not null,
+   ID_COMP              INT4                 not null,
+   ID_EST               INT4                 not null,
+   ID_PREST             SERIAL               not null,
+   FECHAPREST           DATE                 not null,
+   constraint PK_PRESTAMO primary key (ID_PROF, ID_COMP, ID_EST, ID_PREST)
+);
+
+/*==============================================================*/
+/* Index: PRESTAMO_PK                                           */
+/*==============================================================*/
+create unique index PRESTAMO_PK on PRESTAMO (
+ID_PROF,
+ID_COMP,
+ID_EST,
+ID_PREST
+);
+
+/*==============================================================*/
+/* Index: ASIGNA_FK                                             */
+/*==============================================================*/
+create  index ASIGNA_FK on PRESTAMO (
+ID_PROF
+);
+
+/*==============================================================*/
+/* Index: PRESTA_FK                                             */
+/*==============================================================*/
+create  index PRESTA_FK on PRESTAMO (
+ID_COMP
+);
+
+/*==============================================================*/
+/* Index: OBTIENE_FK                                            */
+/*==============================================================*/
+create  index OBTIENE_FK on PRESTAMO (
+ID_EST
+);
+
+/*==============================================================*/
+/* Table: PROFESOR                                              */
+/*==============================================================*/
+create table PROFESOR (
+   ID_PROF              INT4                 not null,
+   NOMBREPROF           VARCHAR(50)          not null,
+   APELLIDOPROF         VARCHAR(30)          not null,
+   CORREO               VARCHAR(50)          null,
+   constraint PK_PROFESOR primary key (ID_PROF)
+);
+
+/*==============================================================*/
+/* Index: PROFESOR_PK                                           */
+/*==============================================================*/
+create unique index PROFESOR_PK on PROFESOR (
+ID_PROF
+);
+
+alter table DEVOLUCION
+   add constraint FK_DEVOLUCI_GENERA_PRESTAMO foreign key (ID_PROF, ID_COMP, ID_EST, ID_PREST)
+      references PRESTAMO (ID_PROF, ID_COMP, ID_EST, ID_PREST)
+      on delete restrict on update restrict;
+
+alter table DEVOLUCION
+   add constraint FK_DEVOLUCI_INFORMA_ESTADO foreign key (ID)
+      references ESTADO (ID)
+      on delete restrict on update restrict;
+
+alter table PRESTAMO
+   add constraint FK_PRESTAMO_ASIGNA_PROFESOR foreign key (ID_PROF)
+      references PROFESOR (ID_PROF)
+      on delete restrict on update restrict;
+
+alter table PRESTAMO
+   add constraint FK_PRESTAMO_OBTIENE_ESTUDIAN foreign key (ID_EST)
+      references ESTUDIANTE (ID_EST)
+      on delete restrict on update restrict;
+
+alter table PRESTAMO
+   add constraint FK_PRESTAMO_PRESTA_COMPUTAD foreign key (ID_COMP)
+      references COMPUTADORA (ID_COMP)
+      on delete restrict on update restrict;
+
+
+
+
+

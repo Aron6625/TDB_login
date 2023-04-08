@@ -1,0 +1,337 @@
+
+/*==============================================================*/
+/* DBMS name:      PostgreSQL 8                                 */
+/* Created on:     01/04/2023 19:01:10                          */
+/*==============================================================*/
+
+
+drop index if exists FUNCION_PK;
+
+drop table if exists "FUNCION";
+
+drop index if exists RELATIONSHIP_7_FK;
+
+drop index if exists RELATIONSHIP_6_FK;
+
+drop index if exists FUNCION_IU_PK;
+
+drop table if EXISTS FUNCION_IU;
+
+drop index if exists IU_PK;
+
+drop table if EXISTS IU;
+
+drop index if exists ROL_PK;
+
+drop table if EXISTS ROL;
+
+drop index if exists RELATIONSHIP_5_FK;
+
+drop index if exists RELATIONSHIP_4_FK;
+
+drop index if exists ROL_FUNCION_PK;
+
+drop table if exists ROL_FUNCION;
+
+drop index if exists RELATIONSHIP_1_FK;
+
+drop index if exists SESION_PK;
+
+drop table if exists SESION;
+
+drop index if exists USERN_PK;
+
+drop table if exists USERN;
+
+drop index if exists RELATIONSHIP_3_FK;
+
+drop index if exists RELATIONSHIP_2_FK;
+
+drop index if exists USERN_ROL_PK;
+
+drop table if exists USERN_ROL;
+
+/*==============================================================*/
+/* Table: FUNCION                                               */
+/*==============================================================*/
+create table "FUNCION" (
+   ID_FUNCION           INT4                 not null,
+   NOMBREF              VARCHAR(150)         not null,
+   ESTADOFACTIVO              BOOLEAN              not null,
+   constraint PK_FUNCION primary key (ID_FUNCION)
+);
+
+/*==============================================================*/
+/* Index: FUNCION_PK                                            */
+/*==============================================================*/
+create unique index FUNCION_PK on "FUNCION" (
+ID_FUNCION
+);
+
+/*==============================================================*/
+/* Table: FUNCION_IU                                            */
+/*==============================================================*/
+create table FUNCION_IU (
+   ID_FUNCION           INT4                 not null,
+   ID_IU                INT4                 not null,
+   constraint PK_FUNCION_IU primary key (ID_FUNCION, ID_IU)
+);
+
+/*==============================================================*/
+/* Index: FUNCION_IU_PK                                         */
+/*==============================================================*/
+create unique index FUNCION_IU_PK on FUNCION_IU (
+ID_FUNCION,
+ID_IU
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_6_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_6_FK on FUNCION_IU (
+ID_FUNCION
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_7_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_7_FK on FUNCION_IU (
+ID_IU
+);
+
+/*==============================================================*/
+/* Table: IU                                                    */
+/*==============================================================*/
+create table IU (
+   ID_IU                INT4                 not null,
+   ESTADOIUACTIVO             BOOLEAN          not null,
+   constraint PK_IU primary key (ID_IU)
+);
+
+/*==============================================================*/
+/* Index: IU_PK                                                 */
+/*==============================================================*/
+create unique index IU_PK on IU (
+ID_IU
+);
+
+/*==============================================================*/
+/* Table: ROL                                                   */
+/*==============================================================*/
+create table ROL (
+   ID_ROL               INT4                 not null,
+   NOMBRER              VARCHAR(30)          not null,
+   constraint PK_ROL primary key (ID_ROL)
+);
+
+/*==============================================================*/
+/* Index: ROL_PK                                                */
+/*==============================================================*/
+create unique index ROL_PK on ROL (
+ID_ROL
+);
+
+/*==============================================================*/
+/* Table: ROL_FUNCION                                           */
+/*==============================================================*/
+create table ROL_FUNCION (
+   ID_ROL               INT4                 not null,
+   ID_FUNCION           INT4                 not null,
+   constraint PK_ROL_FUNCION primary key (ID_ROL, ID_FUNCION)
+);
+
+/*==============================================================*/
+/* Index: ROL_FUNCION_PK                                        */
+/*==============================================================*/
+create unique index ROL_FUNCION_PK on ROL_FUNCION (
+ID_ROL,
+ID_FUNCION
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_4_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_4_FK on ROL_FUNCION (
+ID_ROL
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_5_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_5_FK on ROL_FUNCION (
+ID_FUNCION
+);
+
+/*==============================================================*/
+/* Table: SESION                                                */
+/*==============================================================*/
+create table SESION (
+   ID_USERN             INT4                 not null,
+   ID_SESION            INT4                 not null,
+   PID                  INT4                 not null,
+   constraint PK_SESION primary key (ID_USERN, ID_SESION)
+);
+
+/*==============================================================*/
+/* Index: SESION_PK                                             */
+/*==============================================================*/
+create unique index SESION_PK on SESION (
+ID_USERN,
+ID_SESION
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_1_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_1_FK on SESION (
+ID_USERN
+);
+
+/*==============================================================*/
+/* Table: USERN                                                 */
+/*==============================================================*/
+create table USERN (
+   ID_USERN             INT4                 not null,
+   USUARIO              VARCHAR(50)          not null,
+   PASSWORD             VARCHAR(20)          not null,
+   constraint PK_USERN primary key (ID_USERN)
+);
+
+/*==============================================================*/
+/* Index: USERN_PK                                              */
+/*==============================================================*/
+create unique index USERN_PK on USERN (
+ID_USERN
+);
+
+/*==============================================================*/
+/* Table: USERN_ROL                                             */
+/*==============================================================*/
+create table USERN_ROL (
+   ID_USERN             INT4                 not null,
+   ID_ROL               INT4                 not null,
+   FECHAINI             TIME                 not null,
+   FECHAFIN             TIME                 not null,
+   constraint PK_USERN_ROL primary key (ID_USERN, ID_ROL, FECHAINI)
+);
+
+/*==============================================================*/
+/* Index: USERN_ROL_PK                                          */
+/*==============================================================*/
+create unique index USERN_ROL_PK on USERN_ROL (
+ID_USERN,
+ID_ROL,
+FECHAINI
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_2_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_2_FK on USERN_ROL (
+ID_USERN
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_3_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_3_FK on USERN_ROL (
+ID_ROL
+);
+
+alter table FUNCION_IU
+   add constraint FK_FUNCION__RELATIONS_FUNCION foreign key (ID_FUNCION)
+      references "FUNCION" (ID_FUNCION)
+      on delete restrict on update restrict;
+
+alter table FUNCION_IU
+   add constraint FK_FUNCION__RELATIONS_IU foreign key (ID_IU)
+      references IU (ID_IU)
+      on delete restrict on update restrict;
+
+alter table ROL_FUNCION
+   add constraint FK_ROL_FUNC_RELATIONS_ROL foreign key (ID_ROL)
+      references ROL (ID_ROL)
+      on delete restrict on update restrict;
+
+alter table ROL_FUNCION
+   add constraint FK_ROL_FUNC_RELATIONS_FUNCION foreign key (ID_FUNCION)
+      references "FUNCION" (ID_FUNCION)
+      on delete restrict on update restrict;
+
+alter table SESION
+   add constraint FK_SESION_RELATIONS_USERN foreign key (ID_USERN)
+     references USERN (ID_USERN)
+      on delete restrict on update restrict;
+
+alter table USERN_ROL
+   add constraint FK_USERN_RO_RELATIONS_USERN foreign key (ID_USERN)
+      references USERN (ID_USERN)
+      on delete restrict on update restrict;
+
+alter table USERN_ROL
+   add constraint FK_USERN_RO_RELATIONS_ROL foreign key (ID_ROL)
+      references ROL (ID_ROL)
+      on delete restrict on update restrict;
+
+
+INSERT INTO "users" VALUES (1, 'name', 'jhomanidev@gmail.com', '34353435');
+                           (1, 'name', 'jhomanidev@gmail.com', '34353435');
+
+
+INSERT INTO USERN (ID_USERN,USUARIO,"PASSWORD")
+VALUES
+  (1,'Galena Mateo','34775'),
+  (2,'Dahlia Pascal','22525'),
+  (3,'Vincent Perez','21509'),
+  (4,'Ocean Contreras','86566'),
+  (5,'Alice Carla','27667'),
+  (6,'Ina Bravo','37156'),
+  (7,'Keiko Nunez','34227');
+
+                           
+INSERT INTO FUNCION (ID_FUNCION,ESTADOF)
+VALUES
+   (1,'Realizar prestamos',true ),
+   (2,'Registrar devoluciones',false),
+   (3,'Solicitar prestamo',true),
+   (4,'Devolver el prestamo',true),
+   (5,'Visualir prestamos',false),
+   (6,'VIsualizar regristro de estudiantes',true);
+
+
+INSERT INTO FUNCION_IU (ID_FUNCION,ID_IU)
+VALUES
+   (),
+
+
+INSERT INTO IU (ID_IU, ESTADOIU)
+VALUES
+   (1,)
+
+
+INSERT INTO ROL (ID_ROL,NOMBRER)
+VALUES 
+   (1,'Administrador'),
+   (2,'Profesor'),
+   (3,'Estudiante');
+
+
+INSERT INTO ROL_FUNCION(ID_ROL,ID_FUNCION)
+VALUES 
+   ()
+
+INSERT INTO SESION (ID_USERN,ID_SESION,PID)
+VALUES
+   ()
+
+
+INSERT INTO USERN_ROL (ID_USERN,ID_ROL,FECHAINI,FECHAFIN)
+VALUES 
+   ()
+
+
+
+
+
+
+INSERT INTO USERN_ROL (FECHAINI,FECHAFIN,)
