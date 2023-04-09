@@ -19,7 +19,7 @@ class PostgreSQL {
       if(isset($_SESSION['session_id'])) {
          $sessionId =  $_SESSION['session_id'];
 
-         $statement = "UPDATE sessions SET process_id = pg_backend_pid() WHERE id = $sessionId";
+         $statement = "UPDATE sesion SET pid = pg_backend_pid() WHERE id_sesion = $sessionId";
          pg_query($this->client, $statement);
       }
    }

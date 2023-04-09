@@ -1,4 +1,4 @@
-DROP TABLE log_record;
+DROP TABLE IF EXISTS bitacora;
 CREATE TABLE IF NOT EXISTS bitacora (
   id SERIAL,
   table_name VARCHAR(255),
@@ -26,8 +26,8 @@ BEGIN
     FROM
       "user" u, "sesion" s
     WHERE
-      u.id = s.user_id AND
-      s.process_id = pg_backend_pid()
+      u.id_user = s.id_user AND
+      s.pid = pg_backend_pid()
   );
 
   INSERT INTO bitacora(table_name, action_type, data_old, data_new, "user")
@@ -42,3 +42,8 @@ DROP TRIGGER IF EXISTS log_after_update ON computadora;
 CREATE TRIGGER log_after_update
 AFTER INSERT ON computadora FOR EACH ROW
 EXECUTE PROCEDURE fn_log_after_create();
+
+
+insert INTO computadora values (2,1,'test','mose','victus');
+
+SELECT * from bitacora;

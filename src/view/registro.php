@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once '../datasource/PostgreSQL.php';
 
 $sql = new PostgreSQL();
@@ -11,7 +13,9 @@ $estatos = $sql->consultar(
 if(isset($_POST['nombre_comp'])) {
   $sql->insert('computadora', $_POST);
 }
+
 ?>
+
 <head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -25,16 +29,19 @@ if(isset($_POST['nombre_comp'])) {
     <input
       class="form-control mb-3"
       name="nombre_comp"
+      required
       placeholder="Nombre"
     >
     <input
       class="form-control mb-3"
       name="marca"
+      required
       placeholder="Marca"
     >
     <input
       class="form-control mb-3"
       name="modelo"
+      required
       placeholder="Modelo"
       
     >

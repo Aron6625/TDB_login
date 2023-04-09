@@ -21,6 +21,7 @@ if(isset($_POST['nombre_comp'])) {
     <input
       class="form-control mb-3"
       name="nombre_comp"
+      required
       placeholder="Nombre"
     >
     <input

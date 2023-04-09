@@ -52,9 +52,9 @@ INSERT INTO "funcion_iu"(id_iu, id_funcion) VALUES
   (4, 4);
 
 
-SELECT * from "computadora";
+SELECT * from "bitacora";
 
-SELECT * from "user";
+SELECT * from "sesion";
 INSERT INTO "estado"(id_estado, estado) VALUES
   (2,'inactivo');
 
