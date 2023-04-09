@@ -1,0 +1,20 @@
+DROP FUNCTION IF EXISTS  user_login;
+
+CREATE OR REPLACE FUNCTION user_login(
+  i_nombre  TEXT,
+  i_password TEXT
+) 
+  RETURNS TABLE(o_id_iu integer) 
+AS $$
+BEGIN
+
+  return query
+    SELECT id
+    FROM "users";
+
+END;
+$$ language plpgsql;
+
+
+
+SELECT * FROM user_login('test', 'test');

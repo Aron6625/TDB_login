@@ -17,9 +17,7 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
   $password = $_POST['password'];
 
   $user = $sql->consultar(
-    'SELECT * FROM "users" '.
-    "WHERE \"name\" = '$user'".
-    " AND \"password\" = '$password'"
+		"SELECT * FROM user_login('$user', '$password')",
   );
 
   if(!empty($user)) {
@@ -39,7 +37,6 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
     header('Location: /', true);
   }
 }
-
 ?>
 
 <head>
@@ -50,9 +47,9 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
 	<div class="screen">
 		<div class="screen__content">
 			<form class="login" method="POST">
-<?php
-  echo "<h4>Process id: $processId</h4>"
-?>
+				<h4>
+					<?php echo "Process id: $processId" ?>
+				</h4>
 				<div class="login__field">
 					<i class="login__icon fas fa-user"></i>
 					<input type="text" name="user" class="login__input" placeholder="User name / Email">

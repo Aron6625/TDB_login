@@ -15,7 +15,6 @@ class PostgreSQL {
 
       $this->client = pg_connect("$host $port $dbname $credentials");
 
-
       if(isset($_SESSION['session_id'])) {
          $sessionId =  $_SESSION['session_id'];
 

@@ -11,14 +11,27 @@ if(!isset($_SESSION['session_id'])) {
    exit();
 }
 
-$sql = new PostgreSQL();
+$interfaces = [
+ 1 => ['prestamo.php', 'Prestamo'],
+ 2 => ['catalogo.php', 'Catalogo'],
+ 3 => ['prestamo.php', 'Prestamo'],
+ 4 => ['prestamo.php', 'Prestamo'],
+ 5 => ['estudiantes.php', 'Estudiantes'],
+];
 
-$response = $sql->consultar('SELECT pg_backend_pid();');
-$processId = $response[0]['pg_backend_pid'];
+$losQueTiene = [2,5];
 
-$page = <<<XML
-  <h1>Process ID: $processId</h1>
-  <h1>Main Page.....</h1>
-XML;
+?>
 
-echo $page;
+<nav>
+  <ul>
+    <?php
+      foreach($losQueTiene as $value) {
+        $ruta = $interfaces[$value][0];
+        $label = $interfaces[$value][1];
+
+        echo "<li><a href=\"$ruta\">$label</a></li>";
+      }
+    ?>
+  </ul>
+</nav>

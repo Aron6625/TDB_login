@@ -1,13 +1,13 @@
 version: "3.3"
 services:
   postgresql:
-    image: postgres:9.6-alpine
+    image: postgres:12.14-alpine3.17
     environment:
       POSTGRES_USER: "perfectly_spoken"
       POSTGRES_PASSWORD: "perfectly_spoken"
       POSTGRES_DB: "perfectly_spoken"
     ports:
-    - "5432:5432"
+      - "5432:5432"
   resapp:
     build: .
     container_name: residence
