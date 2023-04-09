@@ -10,15 +10,33 @@ if(!isset($_SESSION['session_id'])) {
 
    exit();
 }
+$interfaces = [
+  1 => ['src/view/prestamo.php','Prestamo'],
+  2 => ['src/view/registro.php','registro'],
+  3 => ['lista-estudiantes.php','lista-estudiantes'],
+  4 => ['devolucion.php','devolucion'],
+  5 => ['asignar-computadoras.php','asiganar'], 
+];  
+   $valor = $_SESSION['iu_ax'];
+?>
+  <nav>
+    <ul>
+      <?php  
+        foreach($valor as $value){
+          $key = $value['o_id_iu'];
+          $ruta = $interfaces[$key][0];
+          $label = $interfaces[$key][1];
+          echo "<li><a href=\"$ruta\">$label</a></li>";
+        }
+      ?>
+    </ul>
+  </nav>
+  <button id="salir">Cerrar Session</button>
 
-$sql = new PostgreSQL();
-
-$response = $sql->consultar('SELECT pg_backend_pid();');
-$processId = $response[0]['pg_backend_pid'];
-
-$page = <<<XML
-  <h1>Process ID: $processId</h1>
-  <h1>Main Page.....</h1>
-XML;
-
-echo $page;
+  <script>
+    const button = document.getElementById('salir');
+    button.onclick = () => {
+      document.cookie = 'PHPSESSID=; path=/; expires=Monday, 10 May 1914 00:00:01 GMT';
+      window.location = 'src/login.php'
+    }
+  </script>

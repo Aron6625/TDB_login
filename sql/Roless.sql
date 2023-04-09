@@ -1,54 +1,124 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     29/03/2023 09:48:43 p. m.                    */
+/* Created on:     09/04/2023 02:26:47 p. m.                    */
 /*==============================================================*/
 
 
-drop index if exists FUNCION_RANGO_PK cascade;
+drop index ESTA_FK;
 
-drop table if exists FUNCION cascade;
+drop index COMPUTADORA_PK;
 
-drop index if exists ______FK cascade;
+drop table COMPUTADORA;
 
-drop index if exists ____FK cascade;
+drop index ESTADO_PK;
 
-drop index if exists FUNCIO_IU_PK cascade;
+drop table ESTADO;
 
-drop table if exists FUNCION_IU cascade;
+drop index FUNCION_RANGO_PK;
 
-drop index if exists INTERFACE_PK cascade;
+drop table FUNCION;
 
-drop table if exists IU cascade;
+drop index ______FK;
 
-drop index if exists ROL_PK cascade;
+drop index ____FK;
 
-drop table if exists ROL cascade;
+drop index FUNCIO_IU_PK;
 
-drop index if exists ___FK cascade;
+drop table FUNCION_IU;
 
-drop index if exists __FK cascade;
+drop index INTERFACE_PK;
 
-drop index if exists ROL_FUNCION_PK cascade;
+drop table IU;
 
-drop table if exists ROL_FUNCION cascade;
+drop index RELATIONSHIP_12_FK;
 
-drop index if exists TIENE_FK cascade;
+drop index ESTUDIANE_FK;
 
-drop index if exists SESION_PK cascade;
+drop index DE_FK;
 
-drop table if exists SESION cascade;
+drop index PRESTAMO_PK;
 
-drop index if exists USER_PK cascade;
+drop table PRESTAMO;
 
-drop table if exists "user" cascade;
+drop index ROL_PK;
 
-drop index if exists TIENE_UN_FK cascade;
+drop table ROL;
 
-drop index if exists RELATIONSHIP_1_FK cascade;
+drop index ___FK;
 
-drop index if exists USERN_ROL_PK cascade;
+drop index __FK;
 
-drop table if exists USER_ROL cascade;
+drop index ROL_FUNCION_PK;
+
+drop table ROL_FUNCION;
+
+drop index __FK2;
+
+drop index ___FK2;
+
+drop index ROL_FUNCION2_PK;
+
+drop table ROL_FUNCION2;
+
+drop index TIENE_FK;
+
+drop index SESION_PK;
+
+drop table SESION;
+
+drop index USER_PK;
+
+drop table "USER";
+
+drop index TIENE_UN_FK;
+
+drop index RELATIONSHIP_1_FK;
+
+drop index USERN_ROL_PK;
+
+drop table USER_ROL;
+
+/*==============================================================*/
+/* Table: COMPUTADORA                                           */
+/*==============================================================*/
+create table COMPUTADORA (
+   ID_COMP              SERIAL               not null,
+   ID_ESTADO            INT4                 not null,
+   NOMBRE_COMP          VARCHAR(100)         null,
+   MARCA                VARCHAR(50)          null,
+   MODELO               VARCHAR(50)          null,
+   constraint PK_COMPUTADORA primary key (ID_COMP)
+);
+
+/*==============================================================*/
+/* Index: COMPUTADORA_PK                                        */
+/*==============================================================*/
+create unique index COMPUTADORA_PK on COMPUTADORA (
+ID_COMP
+);
+
+/*==============================================================*/
+/* Index: ESTA_FK                                               */
+/*==============================================================*/
+create  index ESTA_FK on COMPUTADORA (
+ID_ESTADO
+);
+
+/*==============================================================*/
+/* Table: ESTADO                                                */
+/*==============================================================*/
+create table ESTADO (
+   ID_ESTADO            SERIAL               not null,
+   ESTADO               VARCHAR(50)          null,
+   constraint PK_ESTADO primary key (ID_ESTADO)
+);
+
+/*==============================================================*/
+/* Index: ESTADO_PK                                             */
+/*==============================================================*/
+create unique index ESTADO_PK on ESTADO (
+ID_ESTADO
+);
 
 /*==============================================================*/
 /* Table: FUNCION                                               */
@@ -72,14 +142,17 @@ ID_FUNCION
 create table FUNCION_IU (
    ID_FUNCION           INT4                 not null,
    ID_IU                INT4                 not null,
-   constraint PK_FUNCION_IU primary key (ID_FUNCION, ID_IU)
+   FECHA                DATE                 not null,
+   constraint PK_FUNCION_IU primary key (ID_FUNCION, ID_IU, FECHA)
 );
+
 /*==============================================================*/
 /* Index: FUNCIO_IU_PK                                          */
 /*==============================================================*/
 create unique index FUNCIO_IU_PK on FUNCION_IU (
 ID_FUNCION,
-ID_IU
+ID_IU,
+FECHA
 );
 
 /*==============================================================*/
@@ -110,6 +183,47 @@ create table IU (
 /*==============================================================*/
 create unique index INTERFACE_PK on IU (
 ID_IU
+);
+
+/*==============================================================*/
+/* Table: PRESTAMO                                              */
+/*==============================================================*/
+create table PRESTAMO (
+   ID_COMP              INT4                 not null,
+   ID_PROFESOR_         INT4                 not null,
+   ID_PRESTAMO          SERIAL               not null,
+   ID_ESTUDIANTE        INT4                 not null,
+   FECHA_DEVOLUCION     DATE                 null,
+   FECHA_PRESTAMO       DATE                 null,
+   constraint PK_PRESTAMO primary key (ID_PRESTAMO)
+);
+
+/*==============================================================*/
+/* Index: PRESTAMO_PK                                           */
+/*==============================================================*/
+create unique index PRESTAMO_PK on PRESTAMO (
+ID_PRESTAMO
+);
+
+/*==============================================================*/
+/* Index: DE_FK                                                 */
+/*==============================================================*/
+create  index DE_FK on PRESTAMO (
+ID_COMP
+);
+
+/*==============================================================*/
+/* Index: ESTUDIANE_FK                                          */
+/*==============================================================*/
+create  index ESTUDIANE_FK on PRESTAMO (
+ID_ESTUDIANTE
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_12_FK                                    */
+/*==============================================================*/
+create  index RELATIONSHIP_12_FK on PRESTAMO (
+ID_PROFESOR_
 );
 
 /*==============================================================*/
@@ -160,6 +274,37 @@ ID_FUNCION
 );
 
 /*==============================================================*/
+/* Table: ROL_FUNCION2                                          */
+/*==============================================================*/
+create table ROL_FUNCION2 (
+   ID_ROL               INT4                 not null,
+   ID_FUNCION           INT4                 not null,
+   constraint PK_ROL_FUNCION2 primary key (ID_ROL, ID_FUNCION)
+);
+
+/*==============================================================*/
+/* Index: ROL_FUNCION2_PK                                       */
+/*==============================================================*/
+create unique index ROL_FUNCION2_PK on ROL_FUNCION2 (
+ID_ROL,
+ID_FUNCION
+);
+
+/*==============================================================*/
+/* Index: ___FK2                                                */
+/*==============================================================*/
+create  index ___FK2 on ROL_FUNCION2 (
+ID_ROL
+);
+
+/*==============================================================*/
+/* Index: __FK2                                                 */
+/*==============================================================*/
+create  index __FK2 on ROL_FUNCION2 (
+ID_FUNCION
+);
+
+/*==============================================================*/
 /* Table: SESION                                                */
 /*==============================================================*/
 create table SESION (
@@ -184,9 +329,9 @@ ID_USER
 );
 
 /*==============================================================*/
-/* Table: "user"                                                */
+/* Table: "USER"                                                */
 /*==============================================================*/
-create table "user" (
+create table "USER" (
    ID_USER              SERIAL               not null,
    NOM_USER             VARCHAR(100)         not null,
    PASSSWORD            VARCHAR(10)          not null,
@@ -196,7 +341,7 @@ create table "user" (
 /*==============================================================*/
 /* Index: USER_PK                                               */
 /*==============================================================*/
-create unique index USER_PK on "user" (
+create unique index USER_PK on "USER" (
 ID_USER
 );
 
@@ -208,7 +353,7 @@ create table USER_ROL (
    ID_ROL               INT4                 not null,
    FECHA_FIN            DATE                 not null,
    FECHA_INICIO         DATE                 not null,
-   constraint PK_USER_ROL primary key (ID_USER, ID_ROL)
+   constraint PK_USER_ROL primary key (ID_USER, ID_ROL, FECHA_FIN)
 );
 
 /*==============================================================*/
@@ -216,7 +361,8 @@ create table USER_ROL (
 /*==============================================================*/
 create unique index USERN_ROL_PK on USER_ROL (
 ID_USER,
-ID_ROL
+ID_ROL,
+FECHA_FIN
 );
 
 /*==============================================================*/
@@ -233,6 +379,11 @@ create  index TIENE_UN_FK on USER_ROL (
 ID_ROL
 );
 
+alter table COMPUTADORA
+   add constraint FK_COMPUTAD_ESTA_ESTADO foreign key (ID_ESTADO)
+      references ESTADO (ID_ESTADO)
+      on delete restrict on update restrict;
+
 alter table FUNCION_IU
    add constraint FK_FUNCION______FUNCION foreign key (ID_FUNCION)
       references FUNCION (ID_FUNCION)
@@ -243,24 +394,49 @@ alter table FUNCION_IU
       references IU (ID_IU)
       on delete restrict on update restrict;
 
+alter table PRESTAMO
+   add constraint FK_PRESTAMO_DE_COMPUTAD foreign key (ID_COMP)
+      references COMPUTADORA (ID_COMP)
+      on delete restrict on update restrict;
+
+alter table PRESTAMO
+   add constraint FK_PRESTAMO_ESTUDIANE_USER foreign key (ID_ESTUDIANTE)
+      references "USER" (ID_USER)
+      on delete restrict on update restrict;
+
+alter table PRESTAMO
+   add constraint FK_PRESTAMO_RELATIONS_USER foreign key (ID_PROFESOR_)
+      references "USER" (ID_USER)
+      on delete restrict on update restrict;
+
 alter table ROL_FUNCION
-   add constraint FK_ROL_FUNC___ROL foreign key (ID_ROL)
+   add constraint FK_ROL_FUNC__2_ROL foreign key (ID_ROL)
       references ROL (ID_ROL)
       on delete restrict on update restrict;
 
 alter table ROL_FUNCION
-   add constraint FK_ROL_FUNC____FUNCION foreign key (ID_FUNCION)
+   add constraint FK_ROL_FUNC___2_FUNCION foreign key (ID_FUNCION)
       references FUNCION (ID_FUNCION)
+      on delete restrict on update restrict;
+
+alter table ROL_FUNCION2
+   add constraint FK_ROL_FUNC___FUNCION foreign key (ID_FUNCION)
+      references FUNCION (ID_FUNCION)
+      on delete restrict on update restrict;
+
+alter table ROL_FUNCION2
+   add constraint FK_ROL_FUNC____ROL foreign key (ID_ROL)
+      references ROL (ID_ROL)
       on delete restrict on update restrict;
 
 alter table SESION
    add constraint FK_SESION_TIENE_USER foreign key (ID_USER)
-      references "user" (ID_USER)
+      references "USER" (ID_USER)
       on delete restrict on update restrict;
 
 alter table USER_ROL
    add constraint FK_USER_ROL_ASIGNA_USER foreign key (ID_USER)
-      references "user" (ID_USER)
+      references "USER" (ID_USER)
       on delete restrict on update restrict;
 
 alter table USER_ROL

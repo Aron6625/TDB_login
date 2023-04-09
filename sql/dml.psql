@@ -4,7 +4,9 @@ DELETE FROM "rol_funcion";
 DELETE FROM "rol";
 DELETE FROM "iu";
 DELETE FROM "funcion";
-DELETE FROM "user";
+DELETE FROM "user"; 
+DELETE FROM "sesion";     
+
 
 INSERT INTO "user" (id_user, nom_user, passsword) VALUES
   (1, 'Antoni', 'Test1235'),
@@ -15,7 +17,7 @@ INSERT INTO "user" (id_user, nom_user, passsword) VALUES
 
 INSERT INTO "funcion" (id_funcion, nombre_funcion) VALUES
   (1, 'Prestar computadora'),
-  (2, 'ver catlogo de computadoras'),
+  (2, 'ver registro de computadoras'),
   (3, 'Ver historial de computadoras'),
   (4, 'ver modelo de computadoras');
 
@@ -49,6 +51,12 @@ INSERT INTO "funcion_iu"(id_iu, id_funcion) VALUES
   (3, 3),
   (4, 4);
 
-    SELECT * FROM "user" 
-    WHERE "nom_user" = 'Aron'
-     AND "passsword" = 'Test1235'
+
+SELECT * from "computadora";
+
+SELECT * from "user";
+INSERT INTO "estado"(id_estado, estado) VALUES
+  (2,'inactivo');
+
+
+SELECT * FROM "user" u INNER JOIN user_rol r ON r.id_user = u.id_user AND r.id_rol = 2

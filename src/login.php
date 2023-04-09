@@ -31,6 +31,7 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
     $sessionId = $sql->saveSession($userSession);
 
     $_SESSION['session_id'] = $sessionId;
+		$_SESSION['iu_ax'] = $interfaces;
 
     header('Location: /', true);
   }

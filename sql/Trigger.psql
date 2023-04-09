@@ -1,0 +1,44 @@
+DROP TABLE log_record;
+CREATE TABLE IF NOT EXISTS bitacora (
+  id SERIAL,
+  table_name VARCHAR(255),
+  action_type VARCHAR(15),
+  data_old JSON,
+  data_new JSON,
+  "user" JSON,
+  happened_on TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+CREATE OR REPLACE FUNCTION fn_log_after_create()
+RETURNS TRIGGER
+AS $$
+DECLARE new_record JSON;
+DECLARE old_record JSON;
+DECLARE made_by JSON;
+BEGIN
+  new_record :=  row_to_json(NEW.*);
+  old_record :=  row_to_json(OLD.*);
+
+  made_by := (
+    SELECT
+      row_to_json(u.*)
+    FROM
+      "user" u, "sesion" s
+    WHERE
+      u.id = s.user_id AND
+      s.process_id = pg_backend_pid()
+  );
+
+  INSERT INTO bitacora(table_name, action_type, data_old, data_new, "user")
+  VALUES (TG_TABLE_NAME, TG_OP, old_record, new_record, made_by);
+RETURN NEW;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+DROP TRIGGER IF EXISTS log_after_update ON computadora;
+
+CREATE TRIGGER log_after_update
+AFTER INSERT ON computadora FOR EACH ROW
+EXECUTE PROCEDURE fn_log_after_create();
