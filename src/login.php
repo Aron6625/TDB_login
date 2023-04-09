@@ -16,16 +16,14 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
   $user = $_POST['user'];
   $password = $_POST['password'];
 
-  $user = $sql->consultar(
-    'SELECT * FROM "usern" '.
-    "WHERE \"usuario\" = '$user'".
-    " AND \"password\" = '$password'"
+  $usern_windows = $sql->consultar(
+    "SELECT * FROM ingresar('$user','$password');"
   );
 
-  var_dump($user);
+ // var_dump($user);
 
-  if(!empty($user)) {
-    $id_usern = $user[0]['id_usern'];
+  if(!empty($usern_windows)) {
+    $id_usern = $usern_windows[0]['id_usern'];
      
 
     $userSession = [
@@ -37,8 +35,11 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
     $sessionId = $sql->saveSession($userSession);
 
     $_SESSION['session_id'] = $sessionId;
+    $_SESSION['ventana']= $usern_windows;
+
 
     header('Location: /', true);
+  
   }
 }
 

@@ -14,7 +14,7 @@ class PostgreSQL {
       $credentials = "user = mmc password=mmc";
 
       $this->client = pg_connect("$host $port $dbname $credentials");
-      var_dump($this->client); //view 
+      //var_dump($this->client); //view 
 
       if(isset($_SESSION['session_id'])) {
          $sessionId =  $_SESSION['session_id'];
