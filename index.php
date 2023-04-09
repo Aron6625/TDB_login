@@ -12,7 +12,7 @@ if(!isset($_SESSION['session_id'])) {
 }
 
 $interfaces = [
- 1 => ['prestamo.php', 'Prestamo'],
+ 1 => ['/src/views/registro.php', 'Registro'],
  2 => ['catalogo.php', 'Catalogo'],
  3 => ['prestamo.php', 'Prestamo'],
  4 => ['prestamo.php', 'Prestamo'],

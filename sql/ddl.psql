@@ -20,3 +20,14 @@ INSERT INTO "users" VALUES(2, 'juan', '1234');
 select pg_backend_pid();
 
 SELECT * FROM users;
+
+
+drop table  computadora;
+create table computadora (
+  "id" SERIAL PRIMARY KEY,
+   nombrecomp           VARCHAR(50)          not null,
+   memoria              VARCHAR(30)          not null,
+   so                   VARCHAR(30)          not null
+);
+
+SELECT * FROM computadora;

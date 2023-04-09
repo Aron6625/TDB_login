@@ -12,7 +12,7 @@ $sql = new PostgreSQL();
 $response = $sql->consultar('SELECT pg_backend_pid();');
 $processId = $response[0]['pg_backend_pid'];
 
-if(isset($_POST['user']) && !empty($_POST['user'])) {
+if(isset($_POST['user'])) {
   $user = $_POST['user'];
   $password = $_POST['password'];
 
@@ -22,9 +22,11 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
 
   if(!empty($interfaces)) {
 		$_SESSION['session_id'] = 1;
-		$_SESSION['interfaces'] = $interfaces;
+		$_SESSION['dsd'] = $interfaces;
 
 		header('Location: /', true);
+
+		exit();
   }
 }
 ?>
