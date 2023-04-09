@@ -19,7 +19,7 @@ $interfaces = [
  5 => ['estudiantes.php', 'Estudiantes'],
 ];
 
-$losQueTiene = [2,5];
+$losQueTiene = $_SESSION['interfaces'];
 
 ?>
 
@@ -27,11 +27,26 @@ $losQueTiene = [2,5];
   <ul>
     <?php
       foreach($losQueTiene as $value) {
-        $ruta = $interfaces[$value][0];
-        $label = $interfaces[$value][1];
+        $key = $value['o_id_iu'];
+        $ruta = $interfaces[$key][0];
+        $label = $interfaces[$key][1];
 
         echo "<li><a href=\"$ruta\">$label</a></li>";
       }
     ?>
   </ul>
 </nav>
+
+<button id="logout">Cerrar Session</button>
+
+<script>
+  const button = document.getElementById('logout');
+
+  button.onclick = () => {
+    document.cookie = `PHPSESSID=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+
+    window.location = '/src/login.php';
+  }
+</script>
+
+
