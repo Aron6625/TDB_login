@@ -4,15 +4,15 @@ CREATE OR REPLACE FUNCTION user_login(
   i_nombre  TEXT,
   i_password TEXT
 ) 
-  RETURNS TABLE(o_id_iu integer) 
+  RETURNS TABLE(o_id_iu integer, o_id_user integer) 
 AS $$
 BEGIN
 
   return query
-    SELECT fi.id_iu
-    FROM (SELECT rf.id_funcion
-      FROM (SELECT ur.id_rol
-        FROM (SELECT  id_user
+    SELECT fi.id_iu, id_user
+    FROM (SELECT rf.id_funcion, id_user
+      FROM (SELECT ur.id_rol, ur.id_user
+        FROM (SELECT id_user
           FROM "user" u
           WHERE
             u.nom_user=i_nombre AND

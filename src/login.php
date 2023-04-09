@@ -16,19 +16,15 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
   $user = $_POST['user'];
   $password = $_POST['password'];
 
-  $user = $sql->consultar(
-    'SELECT * FROM "user" '.
-    "WHERE \"name\" = '$user'".
-    " AND \"password\" = '$password'"
+  $interfaces = $sql->consultar(
+		"SELECT * FROM user_login('$user', '$password');"
   );
 
-  if(!empty($user)) {
-    $userId = $user[0]['id'];
-    $ipAddr = $_SERVER['REMOTE_ADDR']; 
+  if(!empty($interfaces)) {
+    $userId = $interfaces[0]['o_id_user'];
 
     $userSession = [
       $processId,
-      "'$ipAddr'",
       $userId,
     ];
 

@@ -38,13 +38,13 @@ class PostgreSQL {
    }
 
    function saveSession(array $datas) {
-      $nextSeq = $this->consultar("SELECT nextval('sessions_id_seq');");
+      $nextSeq = $this->consultar("SELECT nextval('sesion_id_sesion_seq');");
 
       $sessionId = $nextSeq[0]['nextval'];; 
 
       $datas[] = $sessionId;
       $data = implode(',', $datas);
-      $statement = "INSERT INTO sessions(process_id, ip_address, user_id, id) VALUES($data)";
+      $statement = "INSERT INTO sesion(pid, id_user, id_sesion) VALUES($data)";
 
       pg_query($this->client, $statement);
 
