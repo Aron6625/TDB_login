@@ -33,8 +33,9 @@ create table computadora (
    so                   VARCHAR(30)          not null
 );
 
-
+UPDATE computadora SET nombrecomp = 'Aron Gay' WHERE id = 2; 
 SELECT * FROM computadora;
+SELECT * FROM log_record;
 
 SELECT * FROM prestamo;
 

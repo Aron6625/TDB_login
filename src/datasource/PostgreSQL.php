@@ -19,6 +19,7 @@ class PostgreSQL {
          $sessionId =  $_SESSION['session_id'];
 
          $statement = "UPDATE sessions SET process_id = pg_backend_pid() WHERE id = $sessionId";
+
          pg_query($this->client, $statement);
       }
    }
