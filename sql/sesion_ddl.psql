@@ -280,13 +280,13 @@ INSERT INTO "users" VALUES (1, 'name', 'jhomanidev@gmail.com', '34353435');
 
 INSERT INTO USERN (ID_USERN,USUARIO,"PASSWORD")
 VALUES
-  (1,'Galena Mateo','34775'),
-  (2,'Dahlia Pascal','22525'),
-  (3,'Vincent Perez','21509'),
-  (4,'Ocean Contreras','86566'),
-  (5,'Alice Carla','27667'),
-  (6,'Ina Bravo','37156'),
-  (7,'Keiko Nunez','34227');
+  (1,'Galena','34775'),
+  (2,'Dahlia','22525'),
+  (3,'Vincent','21509'),
+  (4,'Ocean','86566'),
+  (5,'Alice','27667'),
+  (6,'Ina','37156'),
+  (7,'Keiko','34227');
 
                            
 INSERT INTO FUNCION (ID_FUNCION,ESTADOF)
@@ -301,7 +301,8 @@ VALUES
 
 INSERT INTO FUNCION_IU (ID_FUNCION,ID_IU)
 VALUES
-   (),
+   (1,1),
+   (2,2),
 
 
 INSERT INTO IU (ID_IU, ESTADOIU)
@@ -329,9 +330,42 @@ INSERT INTO USERN_ROL (ID_USERN,ID_ROL,FECHAINI,FECHAFIN)
 VALUES 
    ()
 
-
-
-
-
-
 INSERT INTO USERN_ROL (FECHAINI,FECHAFIN,)
+
+
+
+
+
+INSERT INTO "rol" (id_rol, nombre_rol) VALUES
+  (1, 'ESTUDIANDO'),
+  (2, 'PROFESOR'),
+  (3, 'DIRECTOR');
+
+INSERT INTO "iu" (id_iu, nombre_iu) VALUES
+  (1, 'prestamo'),
+  (2, 'catalogo'),
+  (3, 'lista-estudiantes'),
+  (4, 'devolucion'),
+  (5, 'asignar-computadoras');
+
+
+INSERT INTO "user_rol"("id_user", id_rol, fecha_fin,fecha_inicio) VALUES
+  (3, 1, '2022-10-30','2022-12-2'),
+  (2, 3, '2022-10-30','2022-12-2'),
+  (1, 2, '2022-10-30','2022-12-2'),
+  (4, 1, '2022-10-30','2022-12-2');
+
+
+INSERT INTO ROL_FUNCION(ID_ROL,ID_FUNCION)
+/*INSERT INTO "rol_funcion"(id_funcion, id_rol)*/ VALUES
+  (1, 1),
+  (2, 2),
+  (3, 3),
+  (3, 4);
+
+INSERT INTO "funcion_iu"(id_iu, id_funcion) VALUES
+  (1, 1),
+  (2, 2),
+  (3, 3),
+  (4, 4);
+

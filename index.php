@@ -1,46 +1,24 @@
-<?php  
-class PostgreSQL {
-   private $client;
+<?php
 
-   function __construct() {
-      $this->connect();
-   }
+require_once 'src/Action/PostgreSQL.php';
 
-   function connect() {
-      $host        = "host = postgresql";
-      $port        = "port = 5432";
-      $dbname      = "dbname = perfectly_spoken";
-      $credentials = "user = perfectly_spoken password=perfectly_spoken";
+session_start();
 
-      $this->client = pg_connect("$host $port $dbname $credentials");
-   }
+if(!isset($_SESSION['session_id'])) {
+   $url = 'src/login.php';
+   header('Location: ' . $url, true);
 
-   // $stament: 'SELECT * FROM users;'
-   function consultar(string $stament): array {
-    $output = [];
-
-    $result = pg_query($this->client, $stament);  
-
-    if ($result) $output = pg_fetch_all($result);
-
-    return $output;
-   }
-
-   // $stament: 'SELECT * FROM users;'
-   function persistir(array $datas, string $table) {
-
-      $query = '';
-      // INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
-      // VALUES (1, 'Paul', 32, 'California', 20000.00 );
-      foreach($datas as $key => $value) {
-      }
-   
-      pg_query($this->client, $query);
-   }
+   exit();
 }
 
-$sql = new PostgreSQL(); 
+$sql = new PostgreSQL();
 
-$arr = $sql->consultar("SELECT * FROM users");
+$response = $sql->consultar('SELECT pg_backend_pid();');
+$processId = $response[0]['pg_backend_pid'];
 
-print_r($arr);
+$page = <<<XML
+  <h1>Process ID: $processId</h1>
+  <h1>Main Page.....</h1>
+XML;
+
+echo $page;

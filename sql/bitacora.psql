@@ -1,0 +1,43 @@
+/*==============================================================*/
+/* DBMS name:      PostgreSQL 8                                 */
+/* Created on:     04/04/2023 18:32:07                          */
+/*==============================================================*/
+
+
+drop index if exists BITACORA_PK;
+
+drop table if exists BITACORA;
+
+drop domain if exists ACCION;
+
+/*==============================================================*/
+/* Domain: ACCION                                               */
+/*==============================================================*/
+create domain ACCION as VARCHAR(10)
+check (value in ('INSERT', 'SELECT', 'DELETE', 'UPDATE'));
+
+/*==============================================================*/
+/* Table: BITACORA                                              */
+/*==============================================================*/
+create table BITACORA (
+   ID_BITACORA          SERIAL               not null,
+   DATONUEVO            JSON                 null,
+   DATAVIEJO            JSON                 null,
+   ACCION               ACCION               not null,
+   FECHAACCION          DATE                 not null,
+   USERN                TEXT                 not null,
+   constraint PK_BITACORA primary key (ID_BITACORA)
+);
+
+/*==============================================================*/
+/* Index: BITACORA_PK                                           */
+/*==============================================================*/
+create unique index BITACORA_PK on BITACORA (
+ID_BITACORA
+);
+
+
+
+
+
+

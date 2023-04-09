@@ -1,1 +1,21 @@
-sddasd
+select funcion_iu.id_iu
+from (select rol_funcion.id_funcion
+	  from (select usern_rol.id_rol
+	 	    from (select UserN.id_usern
+     	  	      from userN
+	 	   		  where userN.usuario='Raul' and
+	  			 	    userN.password='123456') uno, usern_rol
+		    where usern_rol.id_usern=uno.id_usern) dos,rol_funcion
+	   where rol_funcion.id_rol=dos.id_rol) tres,funcion_iu
+where funcion_iu.id_funcion=tres.id_funcion;
+
+select funcion_iu.id_iu
+from funcion_iu 
+where funcion_iu.id_funcion in (select rol_funcion.id_funcion
+								from rol_funcion
+								where rol_funcion.id_rol in (select usern_rol.id_rol
+							 								from usern_rol
+							 								where usern_rol.id_usern in ( select UserN.id_usern
+     						  							   								  from userN
+	 	 					 							   								  where userN.usuario='Raul' and
+	  	        				   								 							 	 userN.password='123456')))

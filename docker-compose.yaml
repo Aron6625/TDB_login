@@ -1,13 +1,16 @@
 version: "3.3"
 services:
+  
   postgresql:
-    image: postgres
+    image: postgres:12.14-alpine3.17
     environment:
-      POSTGRES_USER: "perfectly_spoken"
-      POSTGRES_PASSWORD: "perfectly_spoken"
-      POSTGRES_DB: "perfectly_spoken"
+      POSTGRES_USER: "mmc"
+      POSTGRES_PASSWORD: "mmc"
+      POSTGRES_DB: "mmc"
     ports:
     - "5432:5432"
+    volumes:
+      - postgresql:/var/lib/postgresql/data
   resapp:
     build: .
     container_name: residence
@@ -24,3 +27,5 @@ services:
       XDEBUG_CONFIG:
         client_host=host.docker.internal
         start_with_request=yes
+volumes:
+  postgresql:

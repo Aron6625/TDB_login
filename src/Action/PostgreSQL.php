@@ -1,7 +1,5 @@
 <?php
 
-// namespace MyApp\Datasource;
-
 class PostgreSQL {
    private $client;
 
@@ -12,27 +10,46 @@ class PostgreSQL {
    function connect() {
       $host        = "host = postgresql";
       $port        = "port = 5432";
-      $dbname      = "dbname = perfectly_spoken";
-      $credentials = "user = perfectly_spoken password=perfectly_spoken";
+      $dbname      = "dbname = mmc";
+      $credentials = "user = mmc password=mmc";
 
-      // $this->client = pg_connect("$host $port $dbname $credentials");
+      $this->client = pg_connect("$host $port $dbname $credentials");
+      var_dump($this->client); //view 
+
+      if(isset($_SESSION['session_id'])) {
+         $sessionId =  $_SESSION['session_id'];
+         
+        
+
+         $statement = "UPDATE sesion SET PID = pg_backend_pid() WHERE id_sesion = $sessionId";
+         pg_query($this->client, $statement);
+      }
    }
 
    // $stament: 'SELECT * FROM users;'
    function consultar(string $stament): array {
-      return $this->client->query($stament)->fetchAll();
+      $output = [];
+
+      $result = pg_query($this->client, $stament);  
+
+      if($result && pg_fetch_all($result) !== false) {
+         $output = pg_fetch_all($result);
+      }
+
+      return $output;
    }
 
-   // $stament: 'SELECT * FROM users;'
-   function persistir(array $datas, string $table) {
+   function saveSession(array $datas) {
+      $nextSeq = $this->consultar("SELECT nextval('sesion_id_sesion_seq');");
 
-      $query = '';
-      // INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
-      // VALUES (1, 'Paul', 32, 'California', 20000.00 );
-      foreach($datas as $key => $value) {
+      $sessionId = $nextSeq[0]['nextval'];; 
 
-      }
-   
-      pg_query($this->client, $query);
+      $datas[] = $sessionId;
+      $data = implode(',', $datas);
+      $statement = "INSERT INTO SESION (id_usern, PID, id_sesion) VALUES($data)";
+
+      pg_query($this->client, $statement);
+
+      return $sessionId; 
    }
 }
