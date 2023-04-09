@@ -23,7 +23,6 @@ class PostgreSQL {
       }
    }
 
-   // $stament: 'SELECT * FROM users;'
    function consultar(string $stament): array {
       $output = [];
 
@@ -34,6 +33,24 @@ class PostgreSQL {
       }
 
       return $output;
+   }
+
+   function insert(string $table, array $datas) {
+      $fields = implode(',', array_keys($datas));
+
+      $valuesArr = array_map(
+         function($item) { 
+            if(gettype($item) === 'string') {
+               $item = "'$item'"; 
+            }
+
+            return $item;
+         }, array_values($datas)
+      );
+
+      $values = implode(',', $valuesArr);
+
+      $this->consultar("INSERT INTO $table($fields) VALUES($values)");
    }
 
    function saveSession(array $datas) {

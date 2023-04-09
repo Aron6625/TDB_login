@@ -1,3 +1,6 @@
+DROP TABLE if exists users cascade;
+
+CREATE DATABASE perfectly_spoken;
 
 CREATE TABLE "users"(
   "id" SERIAL PRIMARY KEY,
@@ -16,13 +19,13 @@ CREATE TABLE "sessions"(
 
 INSERT INTO "users" VALUES(1, 'carlos', '34353435');
 INSERT INTO "users" VALUES(2, 'juan', '1234');
-
+  
 select pg_backend_pid();
 
 SELECT * FROM users;
 
 
-drop table  computadora;
+DROP TABLE  computadora;
 create table computadora (
   "id" SERIAL PRIMARY KEY,
    nombrecomp           VARCHAR(50)          not null,
@@ -30,4 +33,15 @@ create table computadora (
    so                   VARCHAR(30)          not null
 );
 
+
 SELECT * FROM computadora;
+
+SELECT * FROM prestamo;
+
+
+create table PRESTAMO (
+  "id" SERIAL PRIMARY KEY,
+   ID_PROF              INT4                 not null, ID_COMP              INT4                 not null,
+   ID_EST               INT4                 not null,
+   FECHAPREST           DATE                 not null
+);
