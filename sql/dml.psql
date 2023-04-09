@@ -52,6 +52,7 @@ INSERT INTO "funcion_iu"(id_iu, id_funcion) VALUES
   (4, 4);
 
 
+DELETE FROM "bitacora";
 SELECT * from "bitacora";
 
 SELECT * from "sesion";
