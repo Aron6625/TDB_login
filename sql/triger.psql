@@ -1,0 +1,32 @@
+CREATE OR REPLACE FUNCTION fn_log_after_create()
+RETURNS TRIGGER
+AS $$
+DECLARE newn JSON;
+DECLARE olda JSON;
+DECLARE made_by JSON;
+BEGIN
+  newn :=  row_to_json(NEW.*);
+  olda :=  row_to_json(OLD.*);
+
+  made_by := (
+    SELECT
+      row_to_json(u.*)
+    FROM
+      "usern" u, "sesion" s
+    WHERE
+      u.ID_USERN = s.ID_USERN AND
+      s.PID = pg_backend_pid()
+  );
+
+  INSERT INTO bitacora(datanuevo, dataviejo, accion, fechaaccion, usern)
+  VALUES ( olda,newn,TG_OP , NOW(fechaaccion), made_by);
+RETURN NEW;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+DROP TRIGGER IF EXISTS log_after_update ON computadora;
+
+CREATE TRIGGER log_after_update
+AFTER INSERT ON computadora FOR EACH ROW
+EXECUTE PROCEDURE fn_log_after_create();

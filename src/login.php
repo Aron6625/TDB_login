@@ -23,9 +23,8 @@ if(isset($_POST['user']) && !empty($_POST['user'])) {
  // var_dump($user);
 
   if(!empty($usern_windows)) {
-    $id_usern = $usern_windows[0]['id_usern'];
+    $id_usern = $usern_windows[0]['user_id'];
      
-
     $userSession = [
       $id_usern,
       $PID,

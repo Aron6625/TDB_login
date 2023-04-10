@@ -1,3 +1,10 @@
+
+SELECT u.id_usern, u.usuario, fu.id_iu
+FROM usern u
+	INNER JOIN usern_rol ur ON u.id_usern = ur.id_usern  
+	INNER JOIN rol_funcion rf ON ur.id_rol = rf.id_rol  
+	INNER JOIN funcion_iu fu ON rf.id_funcion = rf.id_funcion  
+
 select funcion_iu.id_iu
 from (select rol_funcion.id_funcion
 	  from (select usern_rol.id_rol

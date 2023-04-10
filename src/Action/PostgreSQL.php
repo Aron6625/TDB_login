@@ -18,9 +18,7 @@ class PostgreSQL {
 
       if(isset($_SESSION['session_id'])) {
          $sessionId =  $_SESSION['session_id'];
-         
         
-
          $statement = "UPDATE sesion SET PID = pg_backend_pid() WHERE id_sesion = $sessionId";
          pg_query($this->client, $statement);
       }
@@ -38,15 +36,32 @@ class PostgreSQL {
 
       return $output;
    }
+   function insert(string $table, array $datas) {
+      $fields = implode(',', array_keys($datas));
 
+      $valuesArr = array_map(
+         function($item) { 
+            if(gettype($item) === 'string') {
+               $item = "'$item'"; 
+            }
+
+            return $item;
+         }, array_values($datas)
+      );
+
+      $values = implode(',', $valuesArr);
+      $sentencia = "INSERT INTO $table($fields) VALUES($values)";
+
+      $this->consultar($sentencia);
+   }
    function saveSession(array $datas) {
       $nextSeq = $this->consultar("SELECT nextval('sesion_id_sesion_seq');");
 
-      $sessionId = $nextSeq[0]['nextval'];; 
+      $sessionId = $nextSeq[0]['nextval']; 
 
       $datas[] = $sessionId;
       $data = implode(',', $datas);
-      $statement = "INSERT INTO SESION (id_usern, PID, id_sesion) VALUES($data)";
+      $statement = "INSERT INTO sesion (id_usern, PID, id_sesion) VALUES($data)";
 
       pg_query($this->client, $statement);
 

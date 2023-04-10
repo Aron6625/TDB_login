@@ -12,11 +12,11 @@ if(!isset($_SESSION['session_id'])) {
 }
 
 $usern_windows = [
- 1 => ['prestar.php', 'lend'         ],
- 2 => ['computadoras.php', 'Computer'],
- 3 => ['devolucion.php', 'devolution'],
- 4 => ['solicitar_prestamo.php', 'apply for loan'],
- 5 => ['lista_estudiante.php', 'Student'         ],
+ 1 => ['src/vistas/prestamos.php', 'prestamos'         ],
+ 2 => ['src/vistas/registro.php', 'computadora'],
+ 3 => ['src/vistas/devolucion.php', 'devolucion'],
+ 4 => ['src/vistas/solicitar_prestamo.php', 'solicitar prestamo'],
+ 5 => ['src/vistas/lista_estudiante.php', 'estudiante'         ],
 ];
 
 $windows = $_SESSION['ventana'];
