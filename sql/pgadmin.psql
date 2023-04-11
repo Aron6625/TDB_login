@@ -1,0 +1,104 @@
+
+DROP FUNCTION IF EXISTS  ingresar;
+
+CREATE OR REPLACE FUNCTION ingresar(
+  nombre_n  TEXT,
+  password_p TEXT
+) 
+  RETURNS TABLE(iu_id integer,user_id integer) 
+AS $$
+BEGIN
+
+  return query
+    SELECT id_iu, id_usern
+    FROM (SELECT id_funcion, id_usern
+          FROM (SELECT id_rol, ur.id_usern
+                FROM (SELECT id_usern
+          	          FROM "usern"
+                      WHERE usuario=nombre_n AND "password"= password_p
+                           )uno, usern_rol ur
+                WHERE ur.id_usern = uno.id_usern
+		          )dos, rol_funcion rf
+          WHERE rf.id_rol=dos.id_rol
+		     )tres, funcion_iu fi
+    WHERE fi.id_funcion=tres.id_funcion;
+
+END;
+$$ language plpgsql;
+
+insert into usern_rol(id_usern,id_rol,fechaini,fechafin)
+values (1,3,'2023-10-03','2023-10-15')
+
+
+insert into rol_funcion (id_rol,id_funcion)
+values (3,2),(3,3),(3,4);
+select * from sesion
+SELECT * FROM USERN
+select * from usern_rol
+select * from rol_funcion			
+update usern_rol SET id_rol=2 WHERE id_usern=5 and id_rol=3
+
+select * from bitacora
+
+select * from 
+select * from 
+select * from prestamo, devolucion
+where 
+
+SELECT * FROM ingresar('Galena', '34775');
+select * from estado
+select * from devolucion
+select * from estado
+select id_Prest, 
+from (select *
+	  from (select devolucion.id_Dev
+	 	    from (select Estado.estado, estado.id
+     	  	      from estado
+	 	   		  ) uno, devolucion
+		    ) dos,prestamo
+	  where in(select * from devolucion)
+	   where rol_funcion.id_rol=dos.id_rol) tres,funcion_iu
+where funcion_iu.id_funcion=tres.id_funcion;
+
+select * from estado
+
+select pr.id_prest, estado.estado
+from prestamo pr, devolucion dv, estado e
+where not in(select * from devolucion)
+and  pre.id_dev=estadox
+
+
+select *
+	  from (select devolucion.id_Dev
+	 	    from (select Estado.estado, estado.id
+     	  	      from estado
+	 	   		  ) uno, devolucion
+		    ) dos,prestamo
+select * from prestamo
+
+/*md5 importante 
+ la computadora tenra una detalle de fotos, las fotos deben tener un paitea, beb
+ codificador de caracteres 
+ -codificador mas grande uctf
+ binario la imagen que debemos realizar 
+ 
+ -detalle de fotos 
+ -debe mostrar la foto como un nombre de foto diciendo foto uno 
+ - o colocar un visor generico
+*/
+SELECT *
+FROM prestamo p 
+	INNER JOIN devolucion dv ON p.id_dev = dv.id_dev  
+	INNER JOIN estado es ON es.id = dv.id
+	INNER JOIN devolucion dv ON p.id_dev = dv.id_dev  
+	INNER JOIN estado es ON es.id = dv.id  
+
+INNER JOIN funcion_iu fu ON rf.id_funcion = fu.id_funcion
+
+SELECT u.id_usern, u.usuario, fu.id_iu
+FROM usern u
+	INNER JOIN usern_rol ur ON u.id_usern = ur.id_usern  
+	INNER JOIN rol_funcion rf ON ur.id_rol = rf.id_rol  
+	INNER JOIN funcion_iu fu ON rf.id_funcion = fu.id_funcion
+
+alter table prestamo add column id_dev int;
