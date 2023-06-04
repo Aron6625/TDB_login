@@ -1,45 +1,32 @@
-<?php
-
-require_once '../datasource/PostgreSQL.php';
-
-if(isset($_POST['nombre_comp'])) {
-  $sql = new PostgreSQL();
-
-  $sql->insert('computadora', $_POST);
-}
-?>
+<!DOCTYPE html>
+<html>
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<title>Devolución de computadoras</title>
+	<style>
+		body {
+			background-color: #f2f2f2;
+			font-family: Arial, sans-serif;
+			text-align: center;
+			padding: 50px;
+		}
 
-  <title>Hello, world!</title>
+		h1 {
+			font-size: 48px;
+			color: #333333;
+			margin-bottom: 20px;
+		}
+
+		p {
+			font-size: 24px;
+			color: #666666;
+			margin-bottom: 40px;
+		}
+	</style>
 </head>
 <body>
-  <div class="card mx-auto mt-5" style="width: 28rem;">
-    <div class="card-body">
-  <h1 class="mb-4">Registro computadora</h1>
-  <form method="POST">
-    <input
-      class="form-control mb-3"
-      name="nombre_comp"
-      required
-      placeholder="Nombre"
-    >
-    <input
-      class="form-control mb-3"
-      name="marca"
-      placeholder="Marca"
-    >
-    <input
-      class="form-control mb-3"
-      name="modelo"
-      placeholder="Modelo"
-    >
-
-    <button
-      type="submit"
-      class="btn btn-primary"
-    >Submit</button>
-      </div>
-    </div>
-  </form>
+	<?php
+		echo "<h1>Devolución de computadoras</h1>";
+		echo "<p>Gracias por devolver tu computadora.</p>";
+	?>
 </body>
+</html>

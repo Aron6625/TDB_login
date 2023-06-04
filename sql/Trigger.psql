@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS bitacora (
   action_type VARCHAR(15),
   data_old JSON,
   data_new JSON,
-  "" JSON,
+  "user" JSON,
   happened_on TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -24,13 +24,13 @@ BEGIN
     SELECT
       row_to_json(u.*)
     FROM
-      "" u, "sesion" s
+      "user" u, "sesion" s
     WHERE
-      u.id_ = s.id_ AND
+      u.id_user = s.id_user AND
       s.pid = pg_backend_pid()
   );
 
-  INSERT INTO bitacora(table_name, action_type, data_old, data_new, "")
+  INSERT INTO bitacora(table_name, action_type, data_old, data_new, "user")
   VALUES (TG_TABLE_NAME, TG_OP, old_record, new_record, made_by);
 RETURN NEW;
 END;

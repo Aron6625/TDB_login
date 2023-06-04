@@ -64,8 +64,9 @@ class PostgreSQL {
       );
 
       $values = implode(',', $valuesArr);
+      $sentencia = "INSERT INTO $table($fields) VALUES($values)";
 
-      $this->consultar("INSERT INTO $table($fields) VALUES($values)");
+      $this->consultar($sentencia);
    }
 
 }

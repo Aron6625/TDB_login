@@ -16,7 +16,7 @@ $computadoras = $sql->consultar(
   "SELECT id_comp, nombre_comp FROM computadora"
 );
 
-if(isset($_POST['id_profesor'])) {
+if(isset($_POST['id_profesor_'])) {
   $sql->insert('prestamo', $_POST);
 }
    
@@ -31,7 +31,7 @@ if(isset($_POST['id_profesor'])) {
     <div class="card-body">
   <h1 class="mb-4">Prestamo computadora</h1>
   <form method="POST">
-    <select name="id_profesor" class="form-control mb-4">
+    <select name="id_profesor_" class="form-control mb-4">
       <option selected="selected" disabled>Profesor</option>
       <?php 
         foreach($profesores as $profesore) {
@@ -42,7 +42,7 @@ if(isset($_POST['id_profesor'])) {
         }
       ?>
     </select>
-    <select name="id_est" class="form-control mb-4">
+    <select name="id_estudiante" class="form-control mb-4">
       <option selected="selected" disabled>Estudiante</option>
       <?php 
         foreach($estudiantes as $estudiante) {
@@ -67,7 +67,7 @@ if(isset($_POST['id_profesor'])) {
     <input
       class="form-control mb-4"
       type="date"
-      name="FECHAPREST"
+      name="fecha_prestamos"
       min="2018-01-01"
       max="2018-12-31"
     >
